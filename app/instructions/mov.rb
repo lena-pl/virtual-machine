@@ -5,6 +5,10 @@ class Mov
   end
 
   def execute(model)
-    model.send(@destination, model.send(@source))
+    if @source.is_a? Integer
+      model.send(@destination, @source)
+    else
+      model.send(@destination, model.send(@source))
+    end
   end
 end

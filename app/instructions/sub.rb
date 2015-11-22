@@ -4,6 +4,10 @@ class Sub
   end
 
   def execute
-    model.a-=model.send(@source)
+    if @source.is_a? Integer
+      model.a-=@source
+    else
+      model.a-=model.send(@source)
+    end
   end
 end
