@@ -44,7 +44,7 @@ class Parser
   end
 
   def parse_mov(params)
-    Mov.new(params[0].to_sym,params[1].to_sym)
+    Mov.new(make_param params[0],params[1].to_sym)
   end
 
   def parse_swap
@@ -56,11 +56,11 @@ class Parser
   end
 
   def parse_add(params)
-    Add.new(params[0].to_sym)
+    Add.new(make_param params[0])
   end
 
   def parse_sub(params)
-    Sub.new(params[0].to_sym)
+    Sub.new(make_param params[0])
   end
 
   def parse_jmp(params)
@@ -81,6 +81,17 @@ class Parser
 
   def parse_jlz(params)
     Jlz.new(params[0].to_i)
+  end
+
+
+  def make_param(param)
+
+    if param.match /[0-9]+/
+      param.to_i
+    else
+      param.to_sym
+    end
+
   end
 
   def check_params(instrs)
