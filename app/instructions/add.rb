@@ -5,9 +5,9 @@ class Add
 
   def execute(model)
     if @source.is_a? Integer
-      model.a+=@source
+      model.a(model.a + @source)
     else
-      model.a+=model.send(@source)
+      model.a(model.a + model.send(@source))
     end
   end
 end

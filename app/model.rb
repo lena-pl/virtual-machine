@@ -1,5 +1,5 @@
 class Model
-  attr_accessor :a
+  attr_accessor :ic
   def initialize(instructions)
     @a = 0
     @b = 0
@@ -11,8 +11,7 @@ class Model
     while @ic < @instructions.length
       curr_ic = @ic
       increase_instruction_counter
-      puts @instructions[curr_ic]
-      @instructions[curr_ic].execute
+      @instructions[curr_ic].execute(self)
       assess_ic
     end
   end
@@ -26,6 +25,11 @@ class Model
   def assess_ic
     @ic = [@ic,0].max
   end
+
+  def a(param = @a)
+    @a = param
+  end
+
 
   def in
     gets.chomp.to_i

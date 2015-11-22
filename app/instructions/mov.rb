@@ -8,6 +8,7 @@ class Mov
     if @source.is_a? Integer
       model.send(@destination, @source)
     else
+      puts @destination
       model.send(@destination, model.send(@source))
     end
   end
