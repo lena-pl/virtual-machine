@@ -1,4 +1,6 @@
 #parser.rb
+
+#TODO deal with comments ~
 class Parser
 
   def parse_file(filepath)
@@ -44,7 +46,7 @@ class Parser
   end
 
   def parse_mov(params)
-    Mov.new(make_param params[0],params[1].to_sym)
+    Mov.new(make_param(params[0]),params[1].to_sym)
   end
 
   def parse_swap
