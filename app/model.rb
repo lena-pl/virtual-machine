@@ -34,12 +34,12 @@ class Model
 
 
   def in
-    print ":"
-    gets.chomp.to_i
+    print ":"#TODO delete this later
+   $stdin.gets.chomp.to_i
   end
 
   def out(param)
-    puts "#{param} PUTS FROM OUT"
+    puts param
   end
 
   def null
@@ -52,6 +52,7 @@ class Model
   private
 
   def is_jump_type?(type)
-    (type.is_a? Jmp )|| (type.is_a? Jnz )|| (type.is_a? Jgz )|| (type.is_a?(Jlz))|| (type.is_a?(Jez))
+    ( type.is_a? Jmp ) || ( type.is_a? Jnz ) || ( type.is_a? Jgz )
+    || ( type.is_a? Jlz ) || ( type.is_a? Jez )
   end
 end
