@@ -1,10 +1,13 @@
 class Model
-  attr_accessor :ic
+  attr_accessor :ic, :in_buffer, :out_buffer
+
   def initialize(instructions)
-    @a = 0
-    @b = 0
+    @a  = 0
+    @b  = 0
     @ic = 0
     @instructions = instructions
+    @in_buffer  = [] #index 0 is the core number, index 1 is the value
+    @out_buffer = []
   end
 
   def instruction_loop
@@ -20,6 +23,16 @@ class Model
     if !is_jump_type?(@instructions[@ic])
       @ic +=1
     end
+  end
+
+  def pending_core(core_num)
+    begin
+      value = @inbuffer.shift if @in_buffer.first[0] == core_num
+    end until value != nil
+  end
+
+  def send_to_core(core_num,value)
+    @out_buffer.push([core_num,value])
   end
 
   def assess_ic
