@@ -27,7 +27,7 @@ class Model
 
   def pending_core(core_num)
     begin
-      value = @inbuffer.shift if @in_buffer.first[0] == core_num
+      value = @in_buffer.shift if @in_buffer.first[0] == core_num
     end until value != nil
   end
 
