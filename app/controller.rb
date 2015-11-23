@@ -28,9 +28,9 @@ class Controller
   def execute_all
 
     @cores.each do |core|
-      fork do
+    #  fork do
         core.instruction_loop
-      end
+    #  end
     end
 
 

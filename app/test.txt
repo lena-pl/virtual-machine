@@ -1,3 +1,4 @@
+#0
 mov in, a
 jez +4
 add in

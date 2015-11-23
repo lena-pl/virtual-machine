@@ -103,11 +103,11 @@ class Parser
   end
 
   def is_integer?(param)
-    param.match /[0-9]+/!=nil
+    param.match(/[0-9]+/)!=nil
   end
 
   def is_core_number?(param)
-    param.match /^#[0-9]$/ != nil
+    param.match(/^#[0-9]$/) != nil
   end
 
   def remove_hash(core_number)
@@ -126,13 +126,11 @@ class Parser
   end
 
   def is_valid_source?(param)
-    param == "in" || param == "a" || param == "null"
-    || is_integer?(param) || is_core_number?(param)
+    param == "in" || param == "a" || param == "null" || is_integer?(param) || is_core_number?(param)
   end
 
   def is_valid_dest?(param)
-    param == "out" || param == "a" || param == "null"
-    || is_core_number?(param)
+    param == "out" || param == "a" || param == "null" || is_core_number?(param)
   end
 
   def split_instr(instr)

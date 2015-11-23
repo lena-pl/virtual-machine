@@ -5,10 +5,10 @@ class Mov
   end
 
   def execute(model)
-    send_to_destination
+    send_to_destination(model)
   end
 
-  def source_value
+  def source_value(model)
     if @source.is_a? Integer
       @source
     elsif @source.is_a? Array
@@ -18,11 +18,11 @@ class Mov
     end
   end
 
-  def send_to_destination
+  def send_to_destination(model)
     if @destination.is_a? Array
-      model.send_to_core(@destination[0], source_value)
+      model.send_to_core(@destination[0], source_value(model))
     else
-      model.send(@destination, source_value)
+      model.send(@destination, source_value(model))
     end
   end
 end

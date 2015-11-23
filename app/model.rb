@@ -65,7 +65,6 @@ class Model
   private
 
   def is_jump_type?(type)
-    ( type.is_a? Jmp ) || ( type.is_a? Jnz ) || ( type.is_a? Jgz )
-    || ( type.is_a? Jlz ) || ( type.is_a? Jez )
+    ( type.is_a? Jmp ) || ( type.is_a? Jnz ) || ( type.is_a? Jgz ) || ( type.is_a? Jlz ) || ( type.is_a? Jez )
   end
 end
