@@ -1,6 +1,6 @@
 #parser.rb
 
-#TODO deal with comments ~
+#TODO deal with comments ~ optional
 class Parser
 
   def parse_file(filepath)
@@ -58,11 +58,11 @@ class Parser
   end
 
   def parse_add(params)
-    Add.new(make_param params[0])
+    Add.new(make_param(params[0]))
   end
 
   def parse_sub(params)
-    Sub.new(make_param params[0])
+    Sub.new(make_param(params[0]))
   end
 
   def parse_jmp(params)
