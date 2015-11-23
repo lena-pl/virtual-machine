@@ -4,13 +4,20 @@
 class Parser
 
   def parse_file(filepath)
-
-    instrs = File.read(filepath).split("\n")
-    instrs.map do |instr|
-      params = split_instr(instr)
-      check_params(params)
-      parse_type(params)
+    current_core_num = 0
+    instruction_sets = []
+    instrs = File.read(filepath).split("\n").select { |i| !i.empty? }
+    instrs.each do |instr|
+      if is_core_number?(instr)
+        current_core_num = remove_hash(instr).to_i
+        instruction_sets.push([])
+      else
+        params = split_instr(instr)
+        check_params(params)
+        instruction_sets.last.push(parse_type(params))
+      end
     end
+    instruction_sets
 
   end
 
@@ -85,15 +92,26 @@ class Parser
     Jlz.new(params[0].to_i)
   end
 
-
   def make_param(param)
-
-    if param.match /[0-9]+/
+    if is_integer?(param)
       param.to_i
+    elsif is_core_number?(param)
+      [param.tr("#","").to_i]
     else
       param.to_sym
     end
+  end
 
+  def is_integer?(param)
+    param.match /[0-9]+/!=nil
+  end
+
+  def is_core_number?(param)
+    param.match /^#[0-9]$/ != nil
+  end
+
+  def remove_hash(core_number)
+    core_number.tr("#","")
   end
 
   def check_params(instrs)
@@ -105,15 +123,16 @@ class Parser
     else
       fail "Too many arguments for #{instrs[0]}!"
     end
-
   end
 
   def is_valid_source?(param)
-    param == "in" || param == "a" || param == "null" || param.match(/[0-9]/)!=nil #TODO add #[0-9]
+    param == "in" || param == "a" || param == "null"
+    || is_integer?(param) || is_core_number?(param)
   end
 
   def is_valid_dest?(param)
-    param == "out" || param == "a" || param == "null" #TODO add #[0-9]
+    param == "out" || param == "a" || param == "null"
+    || is_core_number?(param)
   end
 
   def split_instr(instr)
