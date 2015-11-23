@@ -8,7 +8,7 @@ class Sub
       model.a(model.a - @source)
     elsif @source.is_a? Array
       data = model.pending_core(@source[0])
-      model.a(model.a - model.send(data))
+      model.a(model.a - data)
     else
       model.a(model.a - model.send(@source))
     end

@@ -9,6 +9,7 @@ class Mov
   end
 
   def source_value(model)
+    # puts "GETTING A VALUE FROM #{@source}"
     if @source.is_a? Integer
       @source
     elsif @source.is_a? Array
@@ -19,6 +20,7 @@ class Mov
   end
 
   def send_to_destination(model)
+    # puts "SENDING TO DEST #{@destination}"
     if @destination.is_a? Array
       model.send_to_core(@destination[0], source_value(model))
     else

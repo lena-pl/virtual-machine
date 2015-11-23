@@ -6,6 +6,7 @@ class Controller
     @cores = instruction_sets.map do |set|
       Model.new(set)
     end
+    @in_proccess = true
 
   end
 
@@ -13,34 +14,38 @@ class Controller
     #execute all
     #loop until all processes done
     # => check out buffers and add to in buffers if needed
-    execute_all
-    while 1 == 1
-      @cores.each.with_index do |index,core|
+
+
+    ex = Thread.new{ execute_all }
+
+    while @in_proccess
+      @cores.each.with_index do |core,index|
         if !core.out_buffer.empty?
-          core_entry = core.shift
+          core_entry = core.out_buffer.shift
           transfer_value(index,core_entry[0],core_entry[1])
         end
+
       end
     end
+    ex.join
   end
 
-
   def execute_all
-
+    threads = []
     @cores.each do |core|
-    #  fork do
-        core.instruction_loop
-    #  end
+      threads.push Thread.new { core.instruction_loop }
     end
 
-
+    threads.each do |thread|
+      thread.join
+    end
+    @in_proccess = false
   end
 
   def transfer_value(from,to,value)
-    @core[to].in_buffer.push([from,value])
+    puts "TRANSFERING VALUE #{value} FROM #{from} TO #{to}"
+    @cores[to].in_buffer.push([from,value])
   end
-
-
 
 
 end

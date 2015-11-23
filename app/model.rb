@@ -1,5 +1,5 @@
 class Model
-  attr_accessor :ic, :in_buffer, :out_buffer
+  attr_accessor :ic, :in_buffer, :out_buffer, :b
 
   def initialize(instructions)
     @a  = 0
@@ -14,6 +14,7 @@ class Model
     while @ic < @instructions.length
       curr_ic = @ic
       increase_instruction_counter
+      puts "#EXECUTING #{@instructions[curr_ic]} ON #{self}"
       @instructions[curr_ic].execute(self)
       assess_ic
     end
@@ -26,12 +27,19 @@ class Model
   end
 
   def pending_core(core_num)
-    begin
-      value = @in_buffer.shift if @in_buffer.first[0] == core_num
-    end until value != nil
+    puts "RUNNING PENDING ON #{self}"
+    value = nil
+    while value == nil
+      if !@in_buffer.empty? && @in_buffer.first[0] == core_num
+        value = @in_buffer.shift
+      end
+    end
+    puts "RECEIVED #{value[1]}"
+    value[1]
   end
 
   def send_to_core(core_num,value)
+    puts "SENDING TO CORE :#{core_num} WITH #{value} ON #{self}"
     @out_buffer.push([core_num,value])
   end
 
@@ -48,11 +56,12 @@ class Model
 
   def in
     print ":"#TODO delete this later
+
    $stdin.gets.chomp.to_i
   end
 
   def out(param)
-    puts param
+    puts "OUTPUT: #{param}"
   end
 
   def null

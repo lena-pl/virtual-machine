@@ -7,6 +7,7 @@ class Parser
     current_core_num = 0
     instruction_sets = []
     instrs = File.read(filepath).split("\n").select { |i| !i.empty? }
+    instrs.map! { |line| line.split("~").first.strip}
     instrs.each do |instr|
       if is_core_number?(instr)
         current_core_num = remove_hash(instr).to_i
@@ -53,11 +54,11 @@ class Parser
   end
 
   def parse_mov(params)
-    Mov.new(make_param(params[0]),params[1].to_sym)
+    Mov.new(make_param(params[0]),make_param(params[1]))
   end
 
   def parse_swap
-    Swap.new
+    Swp.new
   end
 
   def parse_sav
@@ -94,16 +95,16 @@ class Parser
 
   def make_param(param)
     if is_integer?(param)
-      param.to_i
+      remove_plus(param).to_i
     elsif is_core_number?(param)
-      [param.tr("#","").to_i]
+      [remove_hash(param).to_i]
     else
       param.to_sym
     end
   end
 
   def is_integer?(param)
-    param.match(/[0-9]+/)!=nil
+    param.match(/^[-+]*[0-9]+/)!=nil
   end
 
   def is_core_number?(param)
@@ -114,14 +115,20 @@ class Parser
     core_number.tr("#","")
   end
 
+  def remove_plus(int)
+    int.tr("+","")
+  end
+
   def check_params(instrs)
-    if instrs.length == 2
+    if instrs.length == 1
+
+    elsif instrs.length == 2
       fail "#{instrs[1]} is not a valid source" if !is_valid_source?(instrs[1])
     elsif instrs.length == 3
       fail "#{instrs[1]} is not a valid source" if !is_valid_source?(instrs[1])
       fail "#{instrs[2]} is not a valid destination" if !is_valid_dest?(instrs[2])
     else
-      fail "Too many arguments for #{instrs[0]}!"
+      fail "Too many arguments for #{instrs[0]} => #{instrs}!"
     end
   end
 
