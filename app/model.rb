@@ -23,7 +23,9 @@ class Model
   end
 
   def assess_ic
-    @ic = [@ic,0].max
+    if @ic < 0
+      @ic = @a = @b = 0
+    end
   end
 
   def a(param = @a)
@@ -32,11 +34,12 @@ class Model
 
 
   def in
+    print ":"
     gets.chomp.to_i
   end
 
   def out(param)
-    puts param
+    puts "#{param} PUTS FROM OUT"
   end
 
   def null
@@ -49,6 +52,6 @@ class Model
   private
 
   def is_jump_type?(type)
-    type == :jmp || type == :jnz || type == :jgz || type == :jlz || type == :jez
+    (type.is_a? Jmp )|| (type.is_a? Jnz )|| (type.is_a? Jgz )|| (type.is_a?(Jlz))|| (type.is_a?(Jez))
   end
 end

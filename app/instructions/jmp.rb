@@ -4,6 +4,7 @@ class Jmp
   end
 
   def execute(model)
-    model.ic += @ic
+    puts "pre inc jump ic #{model.ic}"
+    puts "#{model.ic += @ic} INCREMENT FROM JUMP"
   end
 end

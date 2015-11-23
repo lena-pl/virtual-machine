@@ -6,6 +6,8 @@ class Jlz
   def execute(model)
     if model.a < 0
       model.ic += @ic
+    else
+      model.ic +=1
     end
   end
 end
