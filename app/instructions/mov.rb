@@ -5,11 +5,24 @@ class Mov
   end
 
   def execute(model)
+    send_to_destination
+  end
+
+  def source_value
     if @source.is_a? Integer
-      model.send(@destination, @source)
+      @source
+    elsif @source.is_a? Array
+      model.pending_core(@source[0])
     else
-      puts @destination
-      model.send(@destination, model.send(@source))
+      model.send(@source)
+    end
+  end
+
+  def send_to_destination
+    if @destination.is_a? Array
+      model.send_to_core(@destination[0], source_value)
+    else
+      model.send(@destination, source_value)
     end
   end
 end
